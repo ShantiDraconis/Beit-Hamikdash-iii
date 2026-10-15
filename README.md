@@ -35,7 +35,8 @@ BeitHamikdash/
                         busca exaustiva > 2^n
     Gematria.lean       valores, aditividade, gematria NÃO injetiva, YHWH e os 4 mundos
     LetrasMaes.lean     א, מ, ש como matrizes 2×2 (escolha do projeto):
-                        relações de quatérnios divididos e comutadores fechados
+                        relações de quatérnios divididos, comutadores fechados,
+                        det(a+bא+cמ+dש) = a²+b²−c²−d²
   Tradicoes/
     IChing.lean         64 hexagramas = 0..63 em binário (Leibniz, 1703)
     IChingCorrecao.lean correção de Hamming: cada passo desce 1; alvo em ≤ 6 passos;
@@ -45,8 +46,14 @@ BeitHamikdash/
     Descida.lean        correção finita: defeito natural que desce chega a 0
     Contracao.lean      invariância + contração ⇒ defeito já é 0 (alerta de circularidade);
                         contração iterada qⁿ; convergência a 0; transporte entre sistemas
+    ZeroInfinito.lean   D/0 = 0 em ℝ; D = 0/∞, 0/D = ∞, D/0 = ∞ incompatíveis em [0, ∞];
+                        D → 0⁺ ⇔ 1/D → +∞; 0/0 indeterminado (limites 0, 1, +∞)
   Milenio/
-    Problemas.lean      os 7 problemas, ledger 0/7, Beal, e Beal ⇒ Fermat (provado)
+    Problemas.lean      os 7 problemas, ledger 0/7, Beal, Beal ⇒ Fermat (provado);
+                        primo em duas bases divide a terceira; MDCs par a par podem diferir
+    ExclusaoCruzada.lean  T ∉ P/SA, A ∉ P/ST, S ∉ P/AT: contraexemplo + teorema de cobertura
+  Exemplos/
+    Habitantes.lean     habitantes auxiliares H2, H6, H7, H9, H10, H11 e Gram (D = 47/54)
     Riemann.lean        enunciado oficial do Mathlib (`RiemannHypothesis`), sem prova
   Pontes.lean           pontes fechadas e abertas; armadilha numerológica do 13
   Auditoria.lean        #print axioms dos teoremas principais
@@ -93,6 +100,17 @@ matemática comum, não mística: mostra o formato que uma ponte precisa ter.
   não para as letras em si. Outra escolha daria outras relações.
 * **Tabela letra ↔ problema.** Não entra como ponte: é atribuição livre, sem
   enunciado que se possa provar ou refutar.
+* **Exclusão cruzada.** Lendo `/` como diferença de conjuntos, `x ∉ P \ Q` não
+  obriga `x ∉ P`, e há um contraexemplo em que as três exclusões valem com tudo
+  dentro de `P`. O argumento válido é: três famílias cobrem `P` e o mesmo alvo
+  (SAT) fica fora de cada uma. Essas duas hipóteses são o próprio P vs NP.
+  A sigla SAT vem de *satisfiability*, e suas letras não ligam o problema aos
+  símbolos S, A, T.
+* **`D = 0/∞`, `0/D = ∞`, `D/0 = ∞`.** São incompatíveis. O que vale é
+  `D → 0⁺ ⇔ 1/D → +∞`, uma reformulação que não aproxima a prova de RH.
+* **Beal.** É falso que os MDCs par a par de uma solução sejam sempre iguais:
+  em 8³ + 8³ = 4⁵, mdc(8, 8) = 8 e mdc(8, 4) = 4. O que vale é que um primo que
+  divide duas bases divide a terceira.
 
 ## Como acrescentar uma tradição
 
