@@ -9,7 +9,10 @@ import BeitHamikdash.Tradicoes.IChingCorrecao
 import BeitHamikdash.Tradicoes.Budismo
 import BeitHamikdash.Nucleo.Descida
 import BeitHamikdash.Nucleo.Contracao
+import BeitHamikdash.Nucleo.ZeroInfinito
 import BeitHamikdash.Milenio.Problemas
 import BeitHamikdash.Milenio.Riemann
+import BeitHamikdash.Milenio.ExclusaoCruzada
+import BeitHamikdash.Exemplos.Habitantes
 import BeitHamikdash.Pontes
 import BeitHamikdash.Auditoria

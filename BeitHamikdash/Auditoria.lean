@@ -1,4 +1,5 @@
 import BeitHamikdash.Pontes
+import BeitHamikdash.Exemplos.Habitantes
 
 /-!
 # Auditoria de axiomas
@@ -9,6 +10,7 @@ A saída destes comandos aparece no log do build e do CI.
 -/
 
 open BeitHamikdash BeitHamikdash.Cabala BeitHamikdash.Tradicoes BeitHamikdash.Milenio
+  BeitHamikdash.Exemplos
 
 #print axioms card_portoes
 #print axioms card_casas
@@ -32,6 +34,19 @@ open BeitHamikdash BeitHamikdash.Cabala BeitHamikdash.Tradicoes BeitHamikdash.Mi
 #print axioms Nucleo.transporte_de_contracao
 #print axioms Budismo.Nidana.periodo_minimo
 #print axioms beal_implica_fermat
+#print axioms primo_em_duas_bases_divide_terceira
+#print axioms mdcs_par_a_par_podem_diferir
+#print axioms exclusao_tripla_nao_basta
+#print axioms exclusao_por_cobertura
+#print axioms Nucleo.tres_relacoes_incompativeis
+#print axioms Nucleo.tende_a_zero_iff_inverso_diverge
+#print axioms Nucleo.zero_sobre_zero_indeterminado
+#print axioms det_combinacao
+#print axioms H6_contagem
+#print axioms H7_cota
+#print axioms H9_positiva
+#print axioms H10_quadrado
+#print axioms defeito_gram
 #print axioms certificados_terminais
 #print axioms pontes_fechadas_provadas
 #print axioms armadilha_13

@@ -6,6 +6,8 @@ import BeitHamikdash.Tradicoes.IChing
 import BeitHamikdash.Tradicoes.IChingCorrecao
 import BeitHamikdash.Tradicoes.Budismo
 import BeitHamikdash.Nucleo.Contracao
+import BeitHamikdash.Nucleo.ZeroInfinito
+import BeitHamikdash.Milenio.ExclusaoCruzada
 import BeitHamikdash.Milenio.Problemas
 
 /-!
@@ -99,6 +101,27 @@ def pontesFechadas : List PonteFechada :=
       ∀ (X : Type) (d : X → ℝ) (T : X → X) (q : ℝ), q < 1 → (∀ x, 0 ≤ d x) →
         (∀ x, d (T x) = d x) → (∀ x, d (T x) ≤ q * d x) → ∀ x, d x = 0,
       fun _ d T _ hq hp hi hc => Nucleo.defeito_zero_de_invariancia_e_contracao d T hq hp hi hc⟩,
+    ⟨"Núcleo (Terceiro Templo)", "D → 0⁺ se e somente se 1/D → +∞ (reformulação, não avanço)",
+      ∀ D : ℕ → ℝ, (∀ n, 0 < D n) →
+        (Filter.Tendsto D Filter.atTop (nhds 0) ↔
+          Filter.Tendsto (fun n => (D n)⁻¹) Filter.atTop Filter.atTop),
+      Nucleo.tende_a_zero_iff_inverso_diverge⟩,
+    ⟨"Núcleo (Terceiro Templo)", "D = 0/∞, 0/D = ∞ e D/0 = ∞ não valem juntas em [0, ∞]",
+      ¬ ∃ D : ENNReal, D = 0 / ⊤ ∧ 0 / D = ⊤ ∧ D / 0 = ⊤,
+      Nucleo.tres_relacoes_incompativeis⟩,
+    ⟨"Exclusão cruzada", "T ∉ P/SA, A ∉ P/ST, S ∉ P/AT não implicam estar fora de P",
+      let P : Set ℕ := {1, 2, 3}; let S : Set ℕ := {3}; let A : Set ℕ := {3};
+      let T : Set ℕ := {3}
+      (3 ∉ P \ (S ∩ A)) ∧ (3 ∉ P \ (S ∩ T)) ∧ (3 ∉ P \ (A ∩ T)) ∧ 3 ∈ P,
+      exclusao_tripla_nao_basta⟩,
+    ⟨"Exclusão cruzada", "cobertura + exclusão do mesmo alvo ⇒ alvo ∉ P (só a lógica)",
+      ∀ (L : Type) (P PSA PST PAT : Set L) (alvo : L), P = PSA ∪ PST ∪ PAT →
+        alvo ∉ PSA → alvo ∉ PST → alvo ∉ PAT → alvo ∉ P,
+      fun _ P PSA PST PAT alvo hc h1 h2 h3 => exclusao_por_cobertura P PSA PST PAT alvo hc h1 h2 h3⟩,
+    ⟨"Matemática", "Beal: um primo que divide duas bases divide a terceira",
+      ∀ {A B C x y z p : ℕ}, p.Prime → 0 < x → 0 < y → 0 < z → A ^ x + B ^ y = C ^ z →
+        (p ∣ A → p ∣ B → p ∣ C) ∧ (p ∣ A → p ∣ C → p ∣ B) ∧ (p ∣ B → p ∣ C → p ∣ A),
+      fun hp hx hy hz h => primo_em_duas_bases_divide_terceira hp hx hy hz h⟩,
     ⟨"Matemática", "Conjectura de Beal ⇒ Último Teorema de Fermat",
       ConjecturaDeBeal → FermatLastTheorem, beal_implica_fermat⟩ ]
 
@@ -131,6 +154,15 @@ def pontesAbertas : List PonteAberta :=
     ⟨"Cabala (Sefer Yetzirah)", "cap. 2 e 4: portões e casas", .pVsNp,
       "Espaços de busca combinatórios. A explosão n! está provada aqui, mas P vs NP \
        pergunta se existe atalho, e o texto não trata disso.", .metafora⟩,
+    ⟨"Exclusão cruzada", "T ∉ P/SA, A ∉ P/ST, S ∉ P/AT", .pVsNp,
+      "Cobrir P por três famílias e excluir SAT de cada uma provaria SAT ∉ P \
+       (`exclusao_por_cobertura`). Mas cobertura + exclusão para todos os algoritmos \
+       polinomiais é o próprio P vs NP, e esbarra nas barreiras conhecidas: \
+       relativização (Baker–Gill–Solovay, 1975), provas naturais (Razborov–Rudich, 1994) \
+       e algebrização (Aaronson–Wigderson, 2008).", .programaDePesquisa⟩,
+    ⟨"Exclusão cruzada", "a sigla SAT e as letras S, A, T", .pVsNp,
+      "SAT abrevia o inglês satisfiability. As letras da sigla não carregam estrutura \
+       do problema: ligá-las aos símbolos S, A, T é coincidência de nome.", .nenhuma⟩,
     ⟨"I Ching", "Leibniz, Explication de l'Arithmétique Binaire (1703)", .pVsNp,
       "Codificação binária, base histórica real da computação. Não diz nada sobre \
        classes de complexidade.", .metafora⟩,

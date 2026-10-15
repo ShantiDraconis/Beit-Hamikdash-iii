@@ -88,4 +88,26 @@ theorem beal_implica_fermat (hBeal : ConjecturaDeBeal) : FermatLastTheorem := by
       (by omega) (by omega) (by omega) heq'
   exact Nat.not_coprime_of_dvd_of_dvd hp.one_lt hpa hpb hcop
 
+/-- **Um primo que divide duas das bases divide a terceira.** Vale para qualquer
+solução de `A^x + B^y = C^z` com expoentes positivos. -/
+theorem primo_em_duas_bases_divide_terceira {A B C x y z p : ℕ} (hp : p.Prime)
+    (hx : 0 < x) (hy : 0 < y) (hz : 0 < z) (h : A ^ x + B ^ y = C ^ z) :
+    (p ∣ A → p ∣ B → p ∣ C) ∧ (p ∣ A → p ∣ C → p ∣ B) ∧ (p ∣ B → p ∣ C → p ∣ A) := by
+  refine ⟨fun hA hB => ?_, fun hA hC => ?_, fun hB hC => ?_⟩
+  · apply hp.dvd_of_dvd_pow (n := z)
+    rw [← h]
+    exact Nat.dvd_add (dvd_pow hA hx.ne') (dvd_pow hB hy.ne')
+  · apply hp.dvd_of_dvd_pow (n := y)
+    have hC' : p ∣ A ^ x + B ^ y := h ▸ dvd_pow hC hz.ne'
+    exact (Nat.dvd_add_right (dvd_pow hA hx.ne')).mp hC'
+  · apply hp.dvd_of_dvd_pow (n := x)
+    have hC' : p ∣ A ^ x + B ^ y := h ▸ dvd_pow hC hz.ne'
+    exact (Nat.dvd_add_left (dvd_pow hB hy.ne')).mp hC'
+
+/-- **Correção:** os MDCs par a par **não** são sempre iguais. Em `8³ + 8³ = 4⁵`,
+mdc(8, 8) = 8, mas mdc(8, 4) = 4. O que vale é `primo_em_duas_bases_divide_terceira`. -/
+theorem mdcs_par_a_par_podem_diferir :
+    8 ^ 3 + 8 ^ 3 = 4 ^ 5 ∧ Nat.gcd 8 8 = 8 ∧ Nat.gcd 8 4 = 4 := by
+  decide
+
 end BeitHamikdash.Milenio
