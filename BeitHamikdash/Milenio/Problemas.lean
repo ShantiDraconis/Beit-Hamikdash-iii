@@ -1,4 +1,3 @@
-import Mathlib.Tactic.DeriveFintype
 import Mathlib.Data.Fintype.Card
 import Mathlib.Data.Nat.Prime.Basic
 import Mathlib.NumberTheory.FLT.Basic
@@ -20,7 +19,11 @@ namespace BeitHamikdash.Milenio
 
 inductive Problema
   | riemann | pVsNp | navierStokes | yangMills | bsd | hodge | beal
-  deriving DecidableEq, Repr, Fintype
+  deriving DecidableEq, Repr
+
+instance : Fintype Problema :=
+  Fintype.ofList [.riemann, .pVsNp, .navierStokes, .yangMills, .bsd, .hodge, .beal]
+    (fun x => by cases x <;> decide)
 
 inductive Status
   | openMath   -- OPEN_MATH = true

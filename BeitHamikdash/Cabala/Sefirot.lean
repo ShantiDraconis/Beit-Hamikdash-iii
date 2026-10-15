@@ -1,4 +1,4 @@
-import Mathlib.Tactic.DeriveFintype
+import Mathlib.Data.Fintype.OfMap
 import Mathlib.Data.Fintype.Card
 
 /-!
@@ -19,7 +19,13 @@ inductive Sefirah
   | chesed | gevurah | tiferet
   | netzach | hod | yesod
   | malkhut
-  deriving DecidableEq, Repr, Fintype
+  deriving DecidableEq, Repr
+
+/- `deriving Fintype` falha no Mathlib v4.35 quando a instância `SetLike` de `Finset`
+está em escopo; por isso as instâncias finitas deste repositório são explícitas. -/
+instance : Fintype Sefirah :=
+  Fintype.ofList [.keter, .chokhmah, .binah, .chesed, .gevurah, .tiferet,
+    .netzach, .hod, .yesod, .malkhut] (fun x => by cases x <;> decide)
 
 namespace Sefirah
 
@@ -31,7 +37,10 @@ inductive Pilar
   | misericordia  -- direita: Chokhmah, Chesed, Netzach
   | rigor         -- esquerda: Binah, Gevurah, Hod
   | equilibrio    -- centro: Keter, Tiferet, Yesod, Malkhut
-  deriving DecidableEq, Repr, Fintype
+  deriving DecidableEq, Repr
+
+instance : Fintype Pilar :=
+  Fintype.ofList [.misericordia, .rigor, .equilibrio] (fun x => by cases x <;> decide)
 
 /-- O pilar de cada sefirah. -/
 def pilar : Sefirah → Pilar
@@ -66,7 +75,10 @@ inductive Mundo
   | beriah    -- criação
   | yetzirah  -- formação
   | assiah    -- ação
-  deriving DecidableEq, Repr, Fintype
+  deriving DecidableEq, Repr
+
+instance : Fintype Mundo :=
+  Fintype.ofList [.atzilut, .beriah, .yetzirah, .assiah] (fun x => by cases x <;> decide)
 
 theorem Mundo.card_eq_quatro : Fintype.card Mundo = 4 := by decide
 

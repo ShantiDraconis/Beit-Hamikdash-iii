@@ -25,7 +25,12 @@ namespace BeitHamikdash.Cabala
 inductive Letra
   | alef | bet | gimel | dalet | he | vav | zayin | chet | tet | yod
   | kaf | lamed | mem | nun | samekh | ayin | pe | tsadi | qof | resh | shin | tav
-  deriving DecidableEq, Repr, Fintype
+  deriving DecidableEq, Repr
+
+instance : Fintype Letra :=
+  Fintype.ofList [.alef, .bet, .gimel, .dalet, .he, .vav, .zayin, .chet, .tet, .yod,
+    .kaf, .lamed, .mem, .nun, .samekh, .ayin, .pe, .tsadi, .qof, .resh, .shin, .tav]
+    (fun x => by cases x <;> decide)
 
 namespace Letra
 
@@ -36,7 +41,7 @@ inductive Classe
   | mae     -- *imot*: א מ ש
   | dupla   -- *kfulot*: ב ג ד כ פ ר ת
   | simples -- *peshutot*: as 12 restantes
-  deriving DecidableEq, Repr, Fintype
+  deriving DecidableEq, Repr
 
 def classe : Letra → Classe
   | alef | mem | shin => .mae

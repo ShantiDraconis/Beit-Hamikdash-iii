@@ -1,4 +1,3 @@
-import Mathlib.Tactic.DeriveFintype
 import Mathlib.Data.Fintype.Card
 import Mathlib.Logic.Function.Iterate
 
@@ -24,7 +23,12 @@ inductive Nidana
   | bhava        -- existência
   | jati         -- nascimento
   | jaramarana   -- velhice e morte
-  deriving DecidableEq, Repr, Fintype
+  deriving DecidableEq, Repr
+
+instance : Fintype Nidana :=
+  Fintype.ofList [.avidya, .samskara, .vijnana, .namarupa, .shadayatana, .sparsha,
+    .vedana, .trishna, .upadana, .bhava, .jati, .jaramarana]
+    (fun x => by cases x <;> decide)
 
 namespace Nidana
 
