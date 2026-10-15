@@ -27,6 +27,8 @@ instance : Fintype Sefirah :=
   Fintype.ofList [.keter, .chokhmah, .binah, .chesed, .gevurah, .tiferet,
     .netzach, .hod, .yesod, .malkhut] (fun x => by cases x <;> decide)
 
+instance : Inhabited Sefirah := ⟨.keter⟩
+
 namespace Sefirah
 
 /-- "Dez e não nove, dez e não onze." -/

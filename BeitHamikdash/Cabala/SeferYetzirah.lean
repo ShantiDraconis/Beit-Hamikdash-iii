@@ -2,6 +2,7 @@ import BeitHamikdash.Cabala.Sefirot
 import Mathlib.Data.Fintype.Powerset
 import Mathlib.Data.Fintype.Perm
 import Mathlib.Data.Fintype.Sum
+import Mathlib.Data.Fintype.Prod
 import Mathlib.Data.Nat.Factorial.Basic
 
 /-!
@@ -73,7 +74,7 @@ theorem card_portoes : portoes.card = 231 := by
 /-- Lidos com "frente e verso" (pares ordenados), os portões são 462 = 22 · 21. -/
 theorem card_portoes_ordenados :
     Fintype.card {p : Letra × Letra // p.1 ≠ p.2} = 462 := by
-  decide
+  decide +kernel
 
 /-- As "casas" construídas por `n` pedras: as ordenações das pedras. -/
 abbrev Casas (n : ℕ) := Equiv.Perm (Fin n)
