@@ -1,4 +1,4 @@
-import Mathlib.Data.ENNReal.Inv
+import Mathlib.Basic.ENNReal.Inv
 import Mathlib.Topology.Algebra.Order.Field
 import Mathlib.Analysis.SpecificLimits.Basic
 
@@ -58,7 +58,8 @@ theorem zero_sobre_zero_indeterminado :
   have hpos : ∀ᶠ x in 𝓝[>] (0 : ℝ), x ≠ 0 :=
     eventually_nhdsWithin_of_forall fun x hx => (Set.mem_Ioi.mp hx).ne'
   refine ⟨?_, ?_, ?_⟩
-  · have hid : Tendsto (fun x : ℝ => x) (𝓝[>] 0) (𝓝 0) := nhdsWithin_le_nhds tendsto_id
+  · have hid : Tendsto (fun x : ℝ => x) (𝓝[>] 0) (𝓝 0) :=
+      tendsto_id.mono_left nhdsWithin_le_nhds
     refine hid.congr' (hpos.mono fun x hx => ?_)
     show x = x ^ 2 / x
     rw [pow_two, mul_div_assoc, div_self hx, mul_one]

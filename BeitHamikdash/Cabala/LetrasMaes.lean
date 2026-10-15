@@ -2,6 +2,7 @@ import Mathlib.LinearAlgebra.Matrix.Notation
 import Mathlib.Data.Matrix.Mul
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Tactic.Ring
+import Mathlib.Tactic.FinCases
 
 /-!
 # Uma representação das três letras mães por matrizes 2×2
@@ -43,12 +44,19 @@ theorem anticomutam :
     tShin * tAlef + tAlef * tShin = 0 := by
   decide
 
-/-- Toda combinação `a·1 + b·א + c·מ + d·ש` tem determinante `a² + b² − c² − d²`,
-a norma dos quatérnios divididos. -/
+/-- A combinação `a·1 + b·א + c·מ + d·ש`. -/
+def combinacao (a b c d : ℤ) : M2 := !![a, 0; 0, a] + b • tAlef + c • tMem + d • tShin
+
+/-- Explicitamente: `!![a + c, d − b; b + d, a − c]`. -/
+theorem combinacao_eq (a b c d : ℤ) :
+    combinacao a b c d = !![a + c, d - b; b + d, a - c] := by
+  ext i j
+  fin_cases i <;> fin_cases j <;> simp [combinacao, tAlef, tMem, tShin] <;> ring
+
+/-- O determinante é `a² + b² − c² − d²`, a norma dos quatérnios divididos. -/
 theorem det_combinacao (a b c d : ℤ) :
-    (a • (1 : M2) + b • tAlef + c • tMem + d • tShin).det = a ^ 2 + b ^ 2 - c ^ 2 - d ^ 2 := by
-  rw [Matrix.det_fin_two]
-  simp [tAlef, tMem, tShin]
+    (combinacao a b c d).det = a ^ 2 + b ^ 2 - c ^ 2 - d ^ 2 := by
+  rw [combinacao_eq, Matrix.det_fin_two_of]
   ring
 
 end BeitHamikdash.Cabala

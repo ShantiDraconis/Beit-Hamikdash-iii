@@ -27,7 +27,7 @@ namespace BeitHamikdash.Milenio
 /-- Estar fora de uma diferença: fora de `P`, ou dentro de `Q`. -/
 theorem fora_da_diferenca_iff {U : Type*} (P Q : Set U) (x : U) :
     x ∉ P \ Q ↔ x ∉ P ∨ x ∈ Q := by
-  simp only [Set.mem_diff, not_and_or, not_not]
+  simp only [Set.mem_sdiff, not_and_or, not_not]
 
 /-- **As três exclusões não bastam.** Com `P = {1, 2, 3}`, `S = A = T = {3}` e os três
 elementos iguais a 3, as três exclusões valem e, mesmo assim, 3 ∈ P. -/
