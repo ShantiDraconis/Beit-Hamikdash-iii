@@ -1,0 +1,21 @@
+name: Lean
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Proibir sorry, admit, native_decide e axiomas novos
+        run: python3 scripts/verificar_honestidade.py
+
+      - name: Build com Mathlib (cache oficial)
+        uses: leanprover/lean-action@v1
+
+      - name: Auditoria de axiomas
+        run: bash scripts/auditar_axiomas.sh
