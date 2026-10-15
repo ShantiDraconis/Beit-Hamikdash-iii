@@ -52,7 +52,7 @@ theorem laplaciano_anula_iff (f : Sefirah → ℝ) :
 
 /-- A Árvore tem uma única componente conexa. -/
 theorem uma_componente : Fintype.card arvore.ConnectedComponent = 1 := by
-  haveI := arvore_conexa.preconnected.subsingleton_connectedComponent
+  have := arvore_conexa.preconnected.subsingleton_connectedComponent
   exact Fintype.card_eq_one_iff.mpr
     ⟨arvore.connectedComponentMk .keter, fun _ => Subsingleton.elim _ _⟩
 
