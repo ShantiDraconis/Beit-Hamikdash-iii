@@ -14,8 +14,21 @@ jobs:
       - name: Proibir sorry, admit, native_decide e axiomas novos
         run: python3 scripts/verificar_honestidade.py
 
-      - name: Build com Mathlib (cache oficial)
+      - name: Instalar Lean e baixar o Mathlib pré-compilado
         uses: leanprover/lean-action@v1
+        with:
+          build: false
+          test: false
+          lint: false
+
+      - name: Build
+        run: |
+          set -o pipefail
+          lake build 2>&1 | tee build.log
+
+      - name: Publicar erros como anotações
+        if: always()
+        run: test -f build.log && python3 scripts/anotar_erros.py build.log || true
 
       - name: Auditoria de axiomas
         run: bash scripts/auditar_axiomas.sh
