@@ -2,8 +2,13 @@ import BeitHamikdash.Cabala.Sefirot
 import BeitHamikdash.Cabala.Arvore
 import BeitHamikdash.Cabala.SeferYetzirah
 import BeitHamikdash.Cabala.Gematria
+import BeitHamikdash.Cabala.Espectral
+import BeitHamikdash.Cabala.LetrasMaes
 import BeitHamikdash.Tradicoes.IChing
+import BeitHamikdash.Tradicoes.IChingCorrecao
 import BeitHamikdash.Tradicoes.Budismo
+import BeitHamikdash.Nucleo.Descida
+import BeitHamikdash.Nucleo.Contracao
 import BeitHamikdash.Milenio.Problemas
 import BeitHamikdash.Milenio.Riemann
 import BeitHamikdash.Pontes

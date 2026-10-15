@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -15,6 +16,7 @@ jobs:
         run: python3 scripts/verificar_honestidade.py
 
       - name: Instalar Lean e baixar o Mathlib pré-compilado
+        timeout-minutes: 15
         uses: leanprover/lean-action@v1
         with:
           build: false
@@ -22,6 +24,7 @@ jobs:
           lint: false
 
       - name: Build
+        timeout-minutes: 25
         run: |
           set -o pipefail
           lake build 2>&1 | tee build.log

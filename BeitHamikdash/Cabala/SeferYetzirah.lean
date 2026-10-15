@@ -76,6 +76,46 @@ theorem card_portoes_ordenados :
     Fintype.card {p : Letra × Letra // p.1 ≠ p.2} = 462 := by
   decide +kernel
 
+/-- Ordem alfabética: alef = 0, …, tav = 21. -/
+def Letra.indice : Letra → ℕ
+  | .alef => 0 | .bet => 1 | .gimel => 2 | .dalet => 3 | .he => 4 | .vav => 5
+  | .zayin => 6 | .chet => 7 | .tet => 8 | .yod => 9 | .kaf => 10 | .lamed => 11
+  | .mem => 12 | .nun => 13 | .samekh => 14 | .ayin => 15 | .pe => 16 | .tsadi => 17
+  | .qof => 18 | .resh => 19 | .shin => 20 | .tav => 21
+
+/-- Os portões na enumeração tradicional: cada letra junto com as que vêm depois
+dela no alfabeto (alef com as 21 seguintes, bet com as 20 seguintes, …). -/
+def portoesAlfabeticos : Finset (Letra × Letra) :=
+  Finset.univ.filter fun p => p.1.indice < p.2.indice
+
+/-- A enumeração alfabética também dá 231, o mesmo número de `portoes`. -/
+theorem card_portoesAlfabeticos : portoesAlfabeticos.card = portoes.card := by
+  rw [card_portoes]; decide +kernel
+
+/-- Perfil de um portão: quantas mães, duplas e simples ele contém. -/
+def perfil (p : Letra × Letra) : ℕ × ℕ × ℕ :=
+  let conta (c : Letra.Classe) : ℕ :=
+    (if p.1.classe = c then 1 else 0) + (if p.2.classe = c then 1 else 0)
+  (conta .mae, conta .dupla, conta .simples)
+
+/-- Os 231 portões se dividem exatamente em 6 famílias:
+mãe–mãe 3, dupla–dupla 21, simples–simples 66, mãe–dupla 21, mãe–simples 36,
+dupla–simples 84. -/
+theorem portoes_por_familia :
+    (portoesAlfabeticos.filter (perfil · = (2, 0, 0))).card = 3 ∧
+    (portoesAlfabeticos.filter (perfil · = (0, 2, 0))).card = 21 ∧
+    (portoesAlfabeticos.filter (perfil · = (0, 0, 2))).card = 66 ∧
+    (portoesAlfabeticos.filter (perfil · = (1, 1, 0))).card = 21 ∧
+    (portoesAlfabeticos.filter (perfil · = (1, 0, 1))).card = 36 ∧
+    (portoesAlfabeticos.filter (perfil · = (0, 1, 1))).card = 84 := by
+  decide +kernel
+
+/-- Não há outra família: todo portão tem um dos 6 perfis. -/
+theorem familias_esgotam :
+    ∀ p ∈ portoesAlfabeticos, perfil p ∈
+      [(2, 0, 0), (0, 2, 0), (0, 0, 2), (1, 1, 0), (1, 0, 1), (0, 1, 1)] := by
+  decide +kernel
+
 /-- As "casas" construídas por `n` pedras: as ordenações das pedras. -/
 abbrev Casas (n : ℕ) := Equiv.Perm (Fin n)
 
