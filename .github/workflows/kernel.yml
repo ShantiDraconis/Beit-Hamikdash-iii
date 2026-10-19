@@ -1,0 +1,69 @@
+name: Terceiro Templo kernel check
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kernel:
+    name: Lean 4 + Mathlib — build and axiom audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        shell: bash
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o elan-init.sh
+          bash elan-init.sh -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Versions
+        run: |
+          lean --version
+          lake --version
+
+      - name: Fetch cached Mathlib
+        run: lake exe cache get || (lake update && lake exe cache get)
+
+      - name: lake build
+        run: lake build
+
+      - name: Reject unverified proof placeholders
+        shell: bash
+        run: |
+          if grep -RInE '\b(sorry|admit)\b' --include='*.lean' TerceiroTemplo TerceiroTemplo.lean; then
+            echo 'FAIL_CLOSED: proof placeholder detected'
+            exit 1
+          fi
+          if grep -RInE '^\s*axiom\s' --include='*.lean' TerceiroTemplo TerceiroTemplo.lean; then
+            echo 'FAIL_CLOSED: custom axiom declared'
+            exit 1
+          fi
+          echo 'HYGIENE_GREEN'
+
+      - name: Axiom audit of the certified theorems
+        shell: bash
+        run: |
+          set -o pipefail
+          lake env lean TerceiroTemplo.lean 2>&1 | tee axioms.log
+          echo "--- axiom report ---"
+          cat axioms.log
+          # Every theorem must depend only on the three standard foundational axioms.
+          if grep -E "depends on axioms: \[" axioms.log \
+              | grep -vE "\[propext, Classical\.choice, Quot\.sound\]|\[propext, Quot\.sound\]|\[propext, Classical\.choice\]|\[Classical\.choice, Quot\.sound\]|\[propext\]|\[Classical\.choice\]|\[Quot\.sound\]|\[\]"; then
+            echo "FAIL_CLOSED: unexpected axiom footprint"
+            exit 1
+          fi
+          echo "AXIOM_AUDIT_GREEN: every printed theorem stays within {propext, Classical.choice, Quot.sound}"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: terceiro-templo-axioms
+          path: axioms.log
